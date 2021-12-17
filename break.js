@@ -2,13 +2,14 @@
 * @param {NS} ns
 **/
 export async function main (ns) {
+	ns.tprint ("> Mapping all available servers...")
 	var host = ns.getHostname();
 	var scanArray = [host];
-	var currentScanLength = 0, index = 0;
+	var currentScanLength = 0;
 	var servers = [];
+	var server, i, j, files;
 	var previousScanLength, currentScanLength, currentHost, newScan;
-	var server, i, j, scriptRAM, serverRAM, threads;
-	
+
 	while (currentScanLength < scanArray.length) {
    		previousScanLength = currentScanLength;
     	currentScanLength = scanArray.length;
@@ -24,7 +25,8 @@ export async function main (ns) {
         	}
    		}
 	}
-
+	ns.tprint ("> Server matrix finished! Firing Doomsday script...");
+	var index = 0;
 	for (i = 0; i < servers.length; i++) {
 		server = servers[i];
 		if (server.requiredHackingSkill > ns.getHackingLevel()) continue;
@@ -47,7 +49,12 @@ export async function main (ns) {
 		if (ns.getServerNumPortsRequired(server.hostname)<=server.openPortCount) {
 			ns.nuke (server.hostname);
 		}
-		if (server.hasAdminRights) index++;
+		if (server.hasAdminRights) {
+			files = ["hack.js", "grow.js", "weaken.js"];
+			await ns.scp (files, "home", server.hostname);
+			index++;
+		}
 	}
 	ns.tprint ("Successfully broke " + index + " server defenses below your hacking level!");
+
 }
