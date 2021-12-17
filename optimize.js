@@ -9,14 +9,20 @@ export async function main(ns) {
 	var availRAM = maxRAM - usedRAM;
 	var numThreads;
 
-	ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
-	ns.tprint ("Hack script optimizer");
-	ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
-	ns.tprint ("Host: " + hostname + " | Program: " + script + " (" + scriptRAM + " GB)" + " | Target: " + target);
-	ns.tprint ("Max RAM: " + maxRAM + " | Used: " + usedRAM + " | Available: " + availRAM);
-	ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
+	var verbose = ns.args[2];
+
+	if (verbose) {
+		ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
+		ns.tprint ("Hack script optimizer");
+		ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
+		ns.tprint ("Host: " + hostname + " | Program: " + script + " (" + scriptRAM + " GB)" + " | Target: " + target);
+		ns.tprint ("Max RAM: " + maxRAM + " | Used: " + usedRAM + " | Available: " + availRAM);
+		ns.tprint ("~~~~~~~~~~~~~~~~~~~~~");
+	}
 	numThreads = Math.floor (availRAM/scriptRAM);
-	ns.tprint ("Launching " + script + " with " + numThreads + " threads");
-	ns.toast ("Launching " + script + " with " + numThreads + " threads");
+	if (verbose) {
+		ns.tprint ("Launching " + script + " with " + numThreads + " threads");
+		ns.toast ("Launching " + script + " with " + numThreads + " threads");
+	}
 	ns.spawn (script, numThreads, target);
 }
