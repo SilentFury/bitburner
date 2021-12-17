@@ -14,7 +14,7 @@ export async function main(ns) {
         }else{
             ns.tprint ("> failed to get " + files[i]);
         }
-        await ns.sleep (800);
+        await ns.sleep (500);
     }
     ns.tprint ("Download finished! " + count + " out of " + files.length + " files successfully downloaded.");
 }
