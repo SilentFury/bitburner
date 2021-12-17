@@ -6,7 +6,7 @@ export async function main(ns) {
 	hostname = ns.args[0];
 	maxRAM = ns.args[1];
 	if (hostname == "" || maxRAM == "") {
-		ns.tprint ("Warning! Missing argument, please include hostname and RAM amount.");
+		ns.tprint ("Warning: Missing arguments, please include hostname and RAM amount.");
 		ns.exit ();
 	}
 	ns.tprint ("Attempting to buy server [" + hostname + "] with " + maxRAM + " RAM");
