@@ -30,5 +30,5 @@ export async function main (ns) {
         	}
    		}
 	}
-	ns.tprint ("> Script uploaded to " + index + " servers!");
+	ns.tprint ("> Uploaded malware to " + index + " servers.");
 }
