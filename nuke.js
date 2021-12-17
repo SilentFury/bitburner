@@ -26,7 +26,7 @@ export async function main (ns) {
 			if (server.hasAdminRights && server.hostname != "home" && !server.purchasedByPlayer) {
 				/* Botnet executable commands */
 				if (massmurder) target = server.hostname;
-				ns.exec ("optimize.js", server.hostname, 1, "hack", target);
+				ns.exec ("optimize.js", server.hostname, 1, "hack.js", target);
 				/* Botnet executable commands */
 			}
         	newScan = ns.scan(currentHost);
