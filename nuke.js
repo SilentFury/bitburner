@@ -6,15 +6,16 @@ export async function main (ns) {
 	var scanArray = [host];
 	var currentScanLength = 0;
 	var previousScanLength, currentScanLength, currentHost, newScan;
-	var server, i, j, massmurder;
+	var server, i, j, target, massmurder;
 
-	var target = ns.args[0];
-	if (target == "") {
+	if (ns.args.length == 0) {
 		massmurder = await ns.prompt ("No target argument used, are you sure you want to fire a generic nuke attack?");
 		if (!massmurder) {
 			ns.tprint ("Attack aborted by user input.");
 			ns.exit ();
 		}
+	}else{
+		target = ns.args[0];
 	}
 	
 	while (currentScanLength < scanArray.length) {
