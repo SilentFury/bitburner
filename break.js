@@ -7,7 +7,7 @@ export async function main (ns) {
 	var scanArray = [host];
 	var currentScanLength = 0;
 	var servers = [];
-	var server, i, j, files;
+	var server, i, j, files, index = 0;
 	var previousScanLength, currentScanLength, currentHost, newScan;
 
 	while (currentScanLength < scanArray.length) {
@@ -26,7 +26,6 @@ export async function main (ns) {
    		}
 	}
 	ns.tprint ("> Server matrix finished! Firing Doomsday script...");
-	var index = 0;
 	for (i = 0; i < servers.length; i++) {
 		server = servers[i];
 		if (server.requiredHackingSkill > ns.getHackingLevel()) continue;
