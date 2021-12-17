@@ -4,12 +4,8 @@
 export async function main (ns) {
 	ns.disableLog ("ALL");
 	var hostname = ns.args[0];
-	var bankThresh = ns.getServerMaxMoney(hostname)*0.7;
-	var secThresh = ns.getServerMinSecurityLevel(hostname) + 5;
-	var out, secLevel, bankAmount;
 
-	ns.print ("# Begin automated farming process!")
-	ns.print ("Hack ETA: " + ns.tFormat(ns.getHackTime(hostname)));
+	// Hostname validation
 	if (hostname == "home") {
 		ns.toast ("> Error: [home] is not a valid hostname.", "error");
 		ns.exit();
@@ -18,8 +14,15 @@ export async function main (ns) {
 		ns.toast ("> Error: [" + hostname + "] server does not exist.", "error");
 		ns.exit ();
 	}
+	// Variable declaration and initialization
+	ns.print ("# Begin automated farming process!")
+	ns.print ("Hack ETA: " + ns.tFormat(ns.getHackTime(hostname)));
+	var bankThresh = ns.getServerMaxMoney(hostname)*0.7;
+	var secThresh = ns.getServerMinSecurityLevel(hostname) + 5;
+	var out, secLevel, bankAmount;
 
 	while (true) {
+		// Security weakening sub process
 		secLevel = ns.getServerSecurityLevel (hostname);
 		if (secLevel > secThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
@@ -34,7 +37,7 @@ export async function main (ns) {
 					" | Hack chance: " + ns.nFormat(ns.hackAnalyzeChance (hostname), "0.00")*100 + "%");
 			}
 		}
-
+		// Bank spoofing subprocess
 		bankAmount = ns.getServerMoneyAvailable (hostname)
 		if (bankAmount < bankThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
@@ -47,6 +50,7 @@ export async function main (ns) {
 				ns.print ("Cash: " + ns.nFormat(bankAmount, "0,0.00 a"));
 			}
 		}
+		// Hacking process
 		ns.print ("~~~~~~~~~~~~~~~~~~~");
 		out = await ns.hack (hostname);
 		if (out == 0) {
