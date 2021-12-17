@@ -49,7 +49,7 @@ export async function main (ns) {
 			ns.nuke (server.hostname);
 		}
 		if (server.hasAdminRights) {
-			files = ["hack.js", "grow.js", "weaken.js"];
+			files = ["hack.js", "grow.js", "weaken.js", "optimize.js"];
 			await ns.scp (files, "home", server.hostname);
 			index++;
 		}
