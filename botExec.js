@@ -6,15 +6,15 @@ export async function main (ns) {
 	var scanArray = [host];
 	var currentScanLength = 0, index = 0;
 	var previousScanLength, currentScanLength;
-	var currentHost, newScan, i, j;
+	var currentHost, newScan, i, j, command;
 
-	var command = ns.args[0];
-	if (command == "") {
+	if (ns.args.length == 0) {
 		ns.tprint ("Error: Argument [0] is empty, must be a valid command.");
 		ns.tprint ("For help use 'run botExec.js help'");
 		ns.exit ();
 	}
-	if (command != "killall" || command != "help") {
+	command = ns.args[0];
+	if (command != "killall" && command != "help") {
 		ns.tprint ("Error: Invalid command. For help use 'run botExec.js help'");
 		ns.exit ();
 	}
