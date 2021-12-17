@@ -16,7 +16,6 @@ export async function main (ns) {
 	}
 	// Variable declaration and initialization
 	ns.print ("# Begin automated farming process!")
-	ns.print ("Hack ETA: " + ns.tFormat(ns.getHackTime(hostname)));
 	var bankThresh = ns.getServerMaxMoney(hostname)*0.7;
 	var secThresh = ns.getServerMinSecurityLevel(hostname) + 5;
 	var out, secLevel, bankAmount;
@@ -46,12 +45,15 @@ export async function main (ns) {
 			while (bankAmount < bankThresh) {
 				out = await ns.grow (hostname);
 				bankAmount = ns.getServerMoneyAvailable (hostname);
-				ns.print ("Target bank spoofed for " + ns.nFormat (out, "0,0.000") + "%!");
+				ns.print ("Target bank modified by " + ns.nFormat (out, "0,0.000") + "!");
 				ns.print ("Cash: " + ns.nFormat(bankAmount, "0,0.00 a"));
 			}
 		}
 		// Hacking process
 		ns.print ("~~~~~~~~~~~~~~~~~~~");
+		ns.print ("Begin hacking attempt of " + hostname + "]");
+		ns.print ("Hack chance: " + ns.nFormat(ns.hackAnalyzeChance (hostname)) + 
+			" | ETA: " + ns.tFormat(ns.getHackTime(hostname)));
 		out = await ns.hack (hostname);
 		if (out == 0) {
 			ns.print ("Hack failed...");
