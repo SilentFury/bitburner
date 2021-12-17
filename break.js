@@ -6,8 +6,9 @@ export async function main (ns) {
 	var host = ns.getHostname();
 	var scanArray = [host];
 	var currentScanLength = 0;
+	var index1 = 0, index2 = 0;
 	var servers = [];
-	var server, i, j, files, index = 0;
+	var server, i, j;
 	var previousScanLength, currentScanLength, currentHost, newScan;
 
 	while (currentScanLength < scanArray.length) {
@@ -25,35 +26,37 @@ export async function main (ns) {
         	}
    		}
 	}
+	await ns.sleep (2000);
 	ns.tprint ("> Server matrix finished! Firing Doomsday script...");
 	for (i = 0; i < servers.length; i++) {
 		server = servers[i];
 		if (server.requiredHackingSkill > ns.getHackingLevel()) continue;
 		if (server.purchasedByPlayer || server.hostname == "home") continue;
-		if (ns.fileExists ("BruteSSH.exe", "home")) {
-			ns.brutessh (server.hostname);
+		if (!server.hasAdminRights) {
+			if (ns.fileExists ("BruteSSH.exe", "home")) {
+				ns.brutessh (server.hostname);
+			}
+			if (ns.fileExists ("FTPCrack.exe", "home")) {
+				ns.ftpcrack (server.hostname);
+			}
+			if (ns.fileExists ("HTTPWorm.exe", "home")) {
+				ns.httpworm (server.hostname);
+			}
+			if (ns.fileExists ("relaySMTP.exe", "home")) {
+				ns.relaysmtp (server.hostname);
+			}
+			if (ns.fileExists ("SQLInject.exe", "home")) {
+				ns.sqlinject (server.hostname);
+			}
+			if (ns.getServerNumPortsRequired(server.hostname)<=server.openPortCount) {
+				ns.nuke (server.hostname);
+			}
+			index1++;
 		}
-		if (ns.fileExists ("FTPCrack.exe", "home")) {
-			ns.ftpcrack (server.hostname);
-		}
-		if (ns.fileExists ("HTTPWorm.exe", "home")) {
-			ns.httpworm (server.hostname);
-		}
-		if (ns.fileExists ("relaySMTP.exe", "home")) {
-			ns.relaysmtp (server.hostname);
-		}
-		if (ns.fileExists ("SQLInject.exe", "home")) {
-			ns.sqlinject (server.hostname);
-		}
-		if (ns.getServerNumPortsRequired(server.hostname)<=server.openPortCount) {
-			ns.nuke (server.hostname);
-		}
-		if (server.hasAdminRights) {
-			files = ["hack.js", "grow.js", "weaken.js", "optimize.js"];
-			await ns.scp (files, "home", server.hostname);
-			index++;
-		}
+		index2++;
 	}
-	ns.tprint ("Successfully broke " + index + " server defenses below your hacking level!");
+	await ns.sleep (2000);
+	ns.run ("botUpload.js");
+	ns.tprint ("Successfully broke into " + index1 + " new servers! Total: " + index2);
 
 }
