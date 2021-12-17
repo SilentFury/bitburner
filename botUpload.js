@@ -5,23 +5,22 @@ export async function main (ns) {
 	var host = ns.getHostname();
 	var scanArray = [host];
 	var currentScanLength = 0, index = 0;
-	var previousScanLength, currentScanLength, currentHost, newScan;
-	var server, i, j;
+	var previousScanLength, currentScanLength;
+	var currentHost, newScan, i, j;
+	var files = ["hack.js", "grow.js", "weaken.js", "optimize.js"];
 	
 	while (currentScanLength < scanArray.length) {
    		previousScanLength = currentScanLength;
     	currentScanLength = scanArray.length;
     	for (i = previousScanLength; i < currentScanLength; i++) {
      		currentHost = scanArray[i];
-      		server = ns.getServer(currentHost)
-			if (server.hasAdminRights) {
-				if (server.hostname == "home") continue;
-				/* Botnet upload commands */
-				await ns.scp ("hack.js", server.hostname);
-				await ns.scp ("weaken.js", server.hostname);
-				await ns.scp ("grow.js", server.hostname);
-				/* Botnet upload commands */
-				index++;
+			if (ns.hasRootAccess(currentHost)) {
+				if (currentHost != "home") {
+					/* Botnet upload command */
+					await ns.scp (files, "home", currentHost);
+					/* Botnet upload command */
+					index++;
+				}
 			}
         	newScan = ns.scan(currentHost);
         	for (j = 0; j < newScan.length; j++) {
