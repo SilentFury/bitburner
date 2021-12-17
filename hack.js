@@ -56,7 +56,7 @@ export async function main (ns) {
 		if (out == 0) {
 			ns.print ("Hack failed...");
 		}else{
-			ns.print ("Successfully stole $" + out +"!");
+			ns.print ("Successfully stole $" + ns.nFormat(out, "0,0.00 a") +"!");
 		}
 	}
 }
