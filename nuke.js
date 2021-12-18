@@ -24,10 +24,10 @@ export async function main (ns) {
     	for (i = previousScanLength; i < currentScanLength; i++) {
      		currentHost = scanArray[i];
       		server = ns.getServer(currentHost)
-			if (server.hasAdminRights && server.hostname != "home" && !server.purchasedByPlayer) {
+			if (ns.hasRootAccess (currentHost) && currentHost != "home" && !server.purchasedByPlayer) {
 				/* Botnet executable commands */
-				if (massmurder) target = server.hostname;
-				ns.exec ("optimize.js", server.hostname, 1, "hack.js", target);
+				if (massmurder) target = currentHost;
+				ns.exec ("optimize.js", currentHost, 1, "hack.js", target);
 				/* Botnet executable commands */
 			}
         	newScan = ns.scan(currentHost);
