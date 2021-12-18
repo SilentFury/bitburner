@@ -2,7 +2,7 @@
 export async function main(ns) {
 	ns.disableLog ("ALL");
 	if (ns.args.length == 0) {
-		ns.tprint ("Error: No target argument set, must be a valid hostname.");
+		ns.tprint ("Error: Missing arguments, must be a valid hostname.");
 		ns.exit ();
 	}
 	var hostname = ns.args[0];
