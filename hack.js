@@ -32,8 +32,7 @@ export async function main (ns) {
 				out = await ns.weaken (hostname);
 				secLevel = ns.getServerSecurityLevel (hostname);
 				ns.print ("Target security modified by " + ns.nFormat (out, "0,0.00") + "!"); 
-				ns.print ("Security: " + ns.nFormat (secLevel, "0,0.00") + 
-					" | Hack chance: " + ns.nFormat(ns.hackAnalyzeChance (hostname), "0.00")*100 + "%");
+				ns.print ("Security: " + ns.nFormat (secLevel, "0,0.00"));
 			}
 		}
 		// Bank spoofing subprocess
@@ -52,8 +51,7 @@ export async function main (ns) {
 		// Hacking process
 		ns.print ("~~~~~~~~~~~~~~~~~~~");
 		ns.print ("Begin hacking attempt of " + hostname + "]");
-		ns.print ("Hack chance: " + ns.nFormat(ns.hackAnalyzeChance (hostname)) + 
-			" | ETA: " + ns.tFormat(ns.getHackTime(hostname)));
+		ns.print ("ETA: " + ns.tFormat(ns.getHackTime(hostname)));
 		out = await ns.hack (hostname);
 		if (out == 0) {
 			ns.print ("Hack failed...");
