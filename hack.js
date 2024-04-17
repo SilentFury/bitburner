@@ -6,6 +6,10 @@ export async function main (ns) {
 	var hostname = ns.args[0];
 
 	// Hostname validation
+	if (ns.args.length == 0) {
+		ns.tprint ("Error: Missing arguments, must have a valid hostname.");
+		ns.exit ();
+	}
 	if (hostname == "home") {
 		ns.toast ("> Error: [home] is not a valid hostname.", "error");
 		ns.exit();
@@ -26,13 +30,13 @@ export async function main (ns) {
 		if (secLevel > secThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
 			ns.print ("Begin weakening process of [" + hostname + "]");
-			ns.print ("Security: " + ns.nFormat (secLevel, "0,0.00") + 
+			ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
 				" | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
 			while (secLevel > secThresh) {
 				out = await ns.weaken (hostname);
 				secLevel = ns.getServerSecurityLevel (hostname);
-				ns.print ("Target security modified by " + ns.nFormat (out, "0,0.00") + "!"); 
-				ns.print ("Security: " + ns.nFormat (secLevel, "0,0.00"));
+				ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
+				ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false));
 			}
 		}
 		// Bank spoofing subprocess
@@ -40,12 +44,12 @@ export async function main (ns) {
 		if (bankAmount < bankThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
 			ns.print ("Begin bank spoofing process of [" + hostname + "]");
-			ns.print ("Cash: " + ns.nFormat(bankAmount, "0,0.00 a") + " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
+			ns.print ("Cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
 			while (bankAmount < bankThresh) {
 				out = await ns.grow (hostname);
 				bankAmount = ns.getServerMoneyAvailable (hostname);
-				ns.print ("Target bank modified by " + ns.nFormat (out, "0,0.000") + "!");
-				ns.print ("Cash: " + ns.nFormat(bankAmount, "0,0.00 a"));
+				ns.print ("Target bank modified by $" + ns.formatNumber (out, 2, 1000, false) + "!");
+				ns.print ("Cash: $" + ns.formatNumber (bankAmount, 2, 1000, false));
 			}
 		}
 		// Hacking process
@@ -56,7 +60,7 @@ export async function main (ns) {
 		if (out == 0) {
 			ns.print ("Hack failed...");
 		}else{
-			ns.print ("Successfully stole $" + ns.nFormat(out, "0,0.00 a") +"!");
+			ns.print ("Successfully stole $" + ns.formatNumber (out, 2, 1000, false) +"!");
 		}
 	}
 }
