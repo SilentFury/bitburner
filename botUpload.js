@@ -17,7 +17,7 @@ export async function main (ns) {
 			if (ns.hasRootAccess(currentHost)) {
 				if (currentHost != "home") {
 					/* Botnet upload command */
-					await ns.scp (files, "home", currentHost);
+					ns.scp (files, currentHost, "home");
 					/* Botnet upload command */
 					index++;
 				}
