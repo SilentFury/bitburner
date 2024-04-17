@@ -53,7 +53,7 @@ export async function main (ns) {
 			while (bankAmount < bankThresh) {
 				out = await ns.grow (hostname);
 				bankAmount = ns.getServerMoneyAvailable (hostname);
-				ns.print ("Target bank modified by $" + ns.formatNumber (out, 2, 1000, false) + "!");
+				ns.print ("Target bank modified by " + ns.formatNumber (out, 4, 1000, false) + "%!");
 				ns.print ("Cash: $" + ns.formatNumber (bankAmount, 2, 1000, false));
 			}
 		}
