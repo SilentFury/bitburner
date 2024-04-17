@@ -2,8 +2,8 @@
 export async function main(ns) {
 
 	var hostname = ns.getHostname ();
-	var script = ns.args[0];
-	var target = ns.args[1];
+	var script = ns.args[0] || "";
+	var target = ns.args[1] || "";
 	if (script == "" || target == "") {
 		if (script == "") ns.tprint ("Error: Argument [0] is empty, must be a valid script name.");
 		if (target == "") ns.tprint ("Error: Argument [1] is empty, must be a valid server hostname.");
