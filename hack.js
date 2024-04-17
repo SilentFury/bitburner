@@ -30,13 +30,15 @@ export async function main (ns) {
 		if (secLevel > secThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
 			ns.print ("Begin weakening process of [" + hostname + "]");
-			ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
-				" | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
+      ns.print ("Minimum Security: " + ns.formatNumber (ns.getServerMinSecurityLevel(hostname), 2, 1000, false) 
+      + " | Threshold: " + ns.formatNumber (secThresh, 2, 1000, false));
+			ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
+			" | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
 			while (secLevel > secThresh) {
 				out = await ns.weaken (hostname);
 				secLevel = ns.getServerSecurityLevel (hostname);
 				ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
-				ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false));
+				ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false));
 			}
 		}
 		// Bank spoofing subprocess
@@ -44,7 +46,10 @@ export async function main (ns) {
 		if (bankAmount < bankThresh) {
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
 			ns.print ("Begin bank spoofing process of [" + hostname + "]");
-			ns.print ("Cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
+      ns.print ("Max Cash: " + ns.formatNumber (ns.getServerMaxMoney(hostname), 2, 1000, false) 
+      + " | Threshold: " + ns.formatNumber (bankThresh, 2, 1000, false));
+			ns.print ("Current cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + 
+      " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
 			while (bankAmount < bankThresh) {
 				out = await ns.grow (hostname);
 				bankAmount = ns.getServerMoneyAvailable (hostname);
