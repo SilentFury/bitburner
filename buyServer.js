@@ -12,7 +12,7 @@ export async function main(ns) {
 
 	ns.tprint ("Attempting to buy server [" + hostname + "] with " + maxRAM + " GB RAM");
 	ns.tprint ("Current servers: " + servers + " / " + maxServers);
-	ns.tprint ("Server cost: $" + ns.getPurchasedServerCost(maxRAM));
+	ns.tprint ("Server cost: $" + ns.formatNumber(ns.getPurchasedServerCost(maxRAM),2,1000, false));
 	check = await ns.prompt ("Purchace info printed in terminal, buy server?");
 	if (check) {
 		ns.toast ("Server [" + hostname + "] successfully bought!");
