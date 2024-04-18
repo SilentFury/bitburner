@@ -20,52 +20,55 @@ export async function main (ns) {
 	}
 	// Variable declaration and initialization
 	ns.print ("# Begin automated farming process!")
-	var bankThresh = ns.getServerMaxMoney(hostname)*0.7;
-	var secThresh = ns.getServerMinSecurityLevel(hostname) + 5;
+	const bankThresh = ns.getServerMaxMoney(hostname)*0.7;
+	const secThresh = ns.getServerMinSecurityLevel(hostname)+5;
 	var out, secLevel, bankAmount;
 
 	while (true) {
-		// Security weakening sub process
-		secLevel = ns.getServerSecurityLevel (hostname);
-		if (secLevel > secThresh) {
-			ns.print ("~~~~~~~~~~~~~~~~~~~");
-			ns.print ("Begin weakening process of [" + hostname + "]");
-      ns.print ("Minimum Security: " + ns.formatNumber (ns.getServerMinSecurityLevel(hostname), 2, 1000, false) 
-      + " | Threshold: " + ns.formatNumber (secThresh, 2, 1000, false));
-			ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
-			" | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
-			while (secLevel > secThresh) {
-				out = await ns.weaken (hostname);
-				secLevel = ns.getServerSecurityLevel (hostname);
-				ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
-				ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false));
-			}
-		}
-		// Bank spoofing subprocess
+		
 		bankAmount = ns.getServerMoneyAvailable (hostname)
-		if (bankAmount < bankThresh) {
+    secLevel = ns.getServerSecurityLevel (hostname);
+    
+		if (bankAmount < bankThresh && secLevel < secThresh+5) {  // Bank spoofing subprocess
 			ns.print ("~~~~~~~~~~~~~~~~~~~");
-			ns.print ("Begin bank spoofing process of [" + hostname + "]");
+	    ns.print ("Begin bank spoofing process of [" + hostname + "]");
       ns.print ("Max Cash: " + ns.formatNumber (ns.getServerMaxMoney(hostname), 2, 1000, false) 
-      + " | Threshold: " + ns.formatNumber (bankThresh, 2, 1000, false));
-			ns.print ("Current cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + 
-      " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
-			while (bankAmount < bankThresh) {
-				out = await ns.grow (hostname);
-				bankAmount = ns.getServerMoneyAvailable (hostname);
-				ns.print ("Target bank modified by " + ns.formatNumber (out, 4, 1000, false) + "%!");
-				ns.print ("Current cash: $" + ns.formatNumber (bankAmount, 2, 1000, false));
-			}
-		}
-		// Hacking process
-		ns.print ("~~~~~~~~~~~~~~~~~~~");
-		ns.print ("Begin hacking attempt of " + hostname + "]");
-		ns.print ("ETA: " + ns.tFormat(ns.getHackTime(hostname)));
-		out = await ns.hack (hostname);
-		if (out == 0) {
-			ns.print ("Hack failed...");
-		}else{
-			ns.print ("Successfully stole $" + ns.formatNumber (out, 2, 1000, false) +"!");
-		}
+        + " | Threshold: " + ns.formatNumber (bankThresh, 2, 1000, false));
+	    ns.print ("Current cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + 
+        " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
+	    while (bankAmount < bankThresh) {
+		    out = await ns.grow (hostname);
+		    bankAmount = ns.getServerMoneyAvailable (hostname);
+		    ns.print ("Target bank modified by " + ns.formatNumber (out, 4, 1000, false) + "%!");
+		    ns.print ("Current cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + 
+          " | ETA: " + ns.tFormat(ns.getGrowTime (hostname)));
+        secLevel = ns.getServerSecurityLevel (hostname);
+        if (secLevel > secThresh+5) continue;
+	    }
+		} else if (secLevel > secThresh) {  // Security weakening sub process
+      ns.print ("~~~~~~~~~~~~~~~~~~~");
+	    ns.print ("Begin weakening process of [" + hostname + "]");
+      ns.print ("Minimum Security: " + ns.formatNumber (ns.getServerMinSecurityLevel(hostname), 2, 1000, false) 
+        + " | Threshold: " + ns.formatNumber (secThresh, 2, 1000, false));
+      ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
+      	" | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
+  	  while (secLevel > secThresh) {
+	  	  out = await ns.weaken (hostname);
+		    secLevel = ns.getServerSecurityLevel (hostname);
+		    ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
+		    ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
+          " | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
+	    }
+		} else {  // Hacking process
+		  ns.print ("~~~~~~~~~~~~~~~~~~~");
+		  ns.print ("Begin hacking attempt of " + hostname + "]");
+		  ns.print ("ETA: " + ns.tFormat(ns.getHackTime(hostname)));
+		  out = await ns.hack (hostname);
+		  if (out == 0) {
+		  	ns.print ("Hack failed...");
+		  }else{
+		  	ns.print ("Successfully stole $" + ns.formatNumber (out, 2, 1000, false) +"!");
+		  }
+    }
 	}
 }
