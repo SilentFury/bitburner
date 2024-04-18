@@ -7,7 +7,7 @@ export async function main(ns) {
     ns.tprint ("Downloading necessary scripts...");
     for (i=0; i<files.length; i++) {
         source = url + "" + files[i];
-        out = await ns.wget (source, files[i], "home");
+        out = await ns.wget (source, files[i], ns.getHostname());
         if (out) {
             ns.tprint ("> " + files[i] + " downloaded");
             count++;
