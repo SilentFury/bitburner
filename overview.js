@@ -149,7 +149,7 @@ export async function main(ns) {
             // playerKarma
             hook0.insertAdjacentHTML('beforeend', `<element class="HUD_Karma_H HUD_el" title="Your karma."><br>Karma &nbsp;&nbsp;&nbsp;</element>`)
             colorByClassName(".HUD_Karma_H", theme['hp'])
-            hook1.insertAdjacentHTML('beforeend', `<element class="HUD_Karma HUD_el"><br>${playerKarma}</element>`)
+            hook1.insertAdjacentHTML('beforeend', `<element class="HUD_Karma HUD_el"><br>${ns.formatNumber(playerKarma,2,1000,false)}</element>`)
             colorByClassName(".HUD_Karma", theme['hp'])
 
 
