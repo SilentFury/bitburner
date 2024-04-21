@@ -12,18 +12,21 @@ export async function main(ns) {
   var out;
 
   ns.print ("~~~~~~~~~~~~~~~~~~~");
-  ns.print ("Begin weakening process of [" + hostname + "]");
-  ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
-    " | ETA: " + ns.tFormat(ns.getGrowTime(hostname)));
+	ns.print ("Begin weakening process of [" + hostname + "]");
+  ns.print ("Minimum Security: " + ns.formatNumber (ns.getServerMinSecurityLevel(hostname), 2, 1000, false) 
+    + " | Threshold: " + ns.formatNumber (secThresh, 2, 1000, false));
+  ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
+    " | ETA: " + ns.tFormat(ns.getWeakenTime(hostname)));
 
   while (true) {
-    if (ns.getServerSecurityLevel (hostname) > secThresh) {
+    if (secLevel > secThresh) {
       out = await ns.weaken (hostname);
-      ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
+		  ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
     } else {
-      sleep (5000);
+      await sleep (5000);
     }
     secLevel = ns.getServerSecurityLevel (hostname);
-    ns.print ("Security: " + ns.formatNumber (secLevel, 2, 1000, false));
+		ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
+      " | ETA: " + ns.tFormat(ns.getWeakenTime(hostname)));
   }
 }
