@@ -2,15 +2,22 @@
 * @param {NS} ns
 **/
 export async function main (ns) {
-	ns.tprint ("> Mapping all available servers...")
+
 	var host = ns.getHostname();
 	var scanArray = [host];
 	var currentScanLength = 0;
-	var index1 = 0, index2 = 0;
+	var index1 = 0, index2 = 0, scripts = 0;
 	var servers = [];
 	var server, i, j;
 	var previousScanLength, currentScanLength, currentHost, newScan;
 
+  if (ns.fileExists ("BruteSSH.exe", "home")) scripts++;
+  if (ns.fileExists ("FTPCrack.exe", "home")) scripts++;
+  if (ns.fileExists ("HTTPWorm.exe", "home")) scripts++;
+  if (ns.fileExists ("relaySMTP.exe", "home")) scripts++;
+  if (ns.fileExists ("SQLInject.exe", "home")) scripts++;
+
+	ns.tprint ("> Mapping all available servers...")
 	while (currentScanLength < scanArray.length) {
    		previousScanLength = currentScanLength;
     	currentScanLength = scanArray.length;
@@ -32,6 +39,7 @@ export async function main (ns) {
 		server = servers[i];
 		if (server.requiredHackingSkill > ns.getHackingLevel()) continue;
 		if (server.purchasedByPlayer || server.hostname == "home") continue;
+    if (ns.getServerNumPortsRequired(server.hostname)>scripts) continue;
 		if (!server.hasAdminRights) {
 			if (ns.fileExists ("BruteSSH.exe", "home")) {
 				ns.brutessh (server.hostname);
@@ -48,12 +56,11 @@ export async function main (ns) {
 			if (ns.fileExists ("SQLInject.exe", "home")) {
 				ns.sqlinject (server.hostname);
 			}
-      await ns.sleep(50);
 			if (ns.getServerNumPortsRequired(server.hostname)<=server.openPortCount) {
 				ns.nuke (server.hostname);
+        ns.tprint ("Gained access to " + server.hostname);
+        index1++;
 			}
-      ns.tprint ("Gained access to " + server.hostname);
-      index1++;
 		}
 		index2++;
 	}
