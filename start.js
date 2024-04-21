@@ -1,8 +1,22 @@
 /** @param {NS} ns **/
 export async function main(ns) {
     var url = "https://raw.githubusercontent.com/SilentFury/bitburner/main/";
-    var files = ["hack.js", "nuke.js", "break.js", "grow.js", "weaken.js", "optimize.js",
-                "buyServer.js", "rmServer.js", "botExec.js", "botUpload.js"];
+    var files = [
+        "botExec.js",
+        "botUpload.js",
+        "break.js",
+        "buyServer.js",
+        "connect.js",
+        "custom-stats.js",
+        "grow.js",
+        "hack.js",
+        "nuke.js",
+        "optimize.js",
+        "overview.js",
+        "rmServer.js",
+        "scanner.js",
+        "weaken.js"
+        ]
     var out, i, source, count = 0;
     ns.tprint ("Downloading necessary scripts...");
     for (i=0; i<files.length; i++) {
