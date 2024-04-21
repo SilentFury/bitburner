@@ -23,7 +23,7 @@ export async function main(ns) {
       out = await ns.weaken (hostname);
 		  ns.print ("Target security modified by " + ns.formatNumber (out, 2, 1000, false) + "!"); 
     } else {
-      await sleep (5000);
+      await ns.sleep (5000);
     }
     secLevel = ns.getServerSecurityLevel (hostname);
 		ns.print ("Current security: " + ns.formatNumber (secLevel, 2, 1000, false) + 
