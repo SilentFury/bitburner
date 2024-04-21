@@ -26,7 +26,7 @@ export async function main (ns) {
         	}
    		}
 	}
-	await ns.sleep (2000);
+	await ns.sleep (1000);
 	ns.tprint ("> Server matrix finished! Firing Doomsday script...");
 	for (i = 0; i < servers.length; i++) {
 		server = servers[i];
@@ -48,15 +48,16 @@ export async function main (ns) {
 			if (ns.fileExists ("SQLInject.exe", "home")) {
 				ns.sqlinject (server.hostname);
 			}
+      await ns.sleep(50);
 			if (ns.getServerNumPortsRequired(server.hostname)<=server.openPortCount) {
 				ns.nuke (server.hostname);
 			}
-			index1++;
+      ns.tprint ("Gained access to " + server.hostname);
+      index1++;
 		}
 		index2++;
 	}
-	await ns.sleep (2000);
+	await ns.sleep (1000);
 	ns.run ("botUpload.js");
 	ns.tprint ("Successfully broke into " + index1 + " new servers! Total: " + index2);
-
 }
