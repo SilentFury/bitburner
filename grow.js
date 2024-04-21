@@ -22,7 +22,7 @@ export async function main(ns) {
       out = await ns.grow (hostname);
       ns.print ("Target bank modified by x" + ns.formatNumber (out, 4, 1000, false) + "!");
     } else {
-      await sleep (5000);
+      await ns.sleep (5000);
     }
     bankAmount = ns.getServerMoneyAvailable (hostname);
 		ns.print ("Current cash: $" + ns.formatNumber(bankAmount, 2, 1000, false) + 
