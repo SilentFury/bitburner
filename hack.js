@@ -67,7 +67,7 @@ export async function main (ns) {
     // Hacking process
     } else { 
       ns.print ("~~~~~~~~~~~~~~~~~~~");
-      ns.print ("Begin hacking attempt of " + hostname + "]");
+      ns.print ("Begin hacking attempt of [" + hostname + "]");
       ns.print ("ETA: " + ns.tFormat(ns.getHackTime(hostname)))
       out = await ns.hack (hostname)
       if (out == 0) {
